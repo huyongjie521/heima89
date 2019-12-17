@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+   mapper标签:配置各类声明
+   namespace：名称空间，由于映射文件可能有多个，为了防止crud语句的唯一标识被重复，需要设置空间名称。
+ -->
+<mapper namespace="com.itheima.mapper.SetMealMapper">
+    <!--
+        select:查询的statement（声明），用来编写查询语句
+        id:语句的唯一标识
+        resultType：配置返回的结果集类型
+        parameterType：传递的参数类型，可以省略
+    -->
+   <insert id="add" useGeneratedKeys="true" keyProperty="id">
+       insert into t_setmeal values(null,#{name},#{code},#{helpCode},#{sex},#{age},#{price},#{remark},#{attention},#{img})
+   </insert>
+
+    <insert id="setSetmealAndCheckGroup">
+        insert into t_setmeal_checkgroup VALUES
+        <foreach collection="checkgroupIds" item="checkgroupId" separator=",">
+            (#{id},#{checkgroupId})
+        </foreach>
+    </insert>
+
+    <!--套餐分页查询-->
+    <select id="findPage" resultType="Setmeal">
+        select * from t_setmeal
+        <if test="queryString != null and queryString.trim()!=''">
+           where code = #{queryString} or name like '%' #{queryString} '%'
+        </if>
+    </select>
+
+    <!--查询所有套餐-->
+    <select id="findSetmealAll" resultType="Setmeal">
+        select * from t_setmeal;
+    </select>
+
+    <!--编写自定义结果集：怎么封装数据，按我说的来-->
+    <resultMap id="SetmealResultMap" type="Setmeal" autoMapping="true">
+        <id column="id" property="id"></id>
+       <!-- 封装套餐对应的检查组集合
+        property属性：将检查组封装到Setmeal中的哪个属性中
+        javaType属性：属性的类型
+        ofType属性：集合中的元素类型-->
+        <collection property="checkGroups" javaType="List" ofType="CheckGroup" autoMapping="true">
+            <id column="cgid" property="id"></id>
+            <result column="cgname" property="name"></result>
+            <result column="cgremark" property="remark"></result>
+
+            <collection property="checkItems" javaType="List" ofType="CheckItem" autoMapping="true">
+                <id column="ciid" property="id"></id>
+                <result column="ciname" property="name"></result>
+            </collection>
+        </collection>
+    </resultMap>
+    <!--通过套餐id查询套餐、检查组和关联的检查项信息-->
+    <select id="findById" resultMap="SetmealResultMap">
+        SELECT
+            s.*,cg.id cgid,cg.name cgname,cg.remark cgremark,ci.id ciid,ci.name ciname
+        FROM
+        t_setmeal s
+        INNER JOIN t_setmeal_checkgroup sc on sc.setmeal_id = s.id
+        INNER JOIN t_checkgroup cg on sc.checkgroup_id = cg.id
+        INNER JOIN t_checkgroup_checkitem cc on cc.checkgroup_id = cg.id
+        INNER JOIN t_checkitem ci on ci.id = cc.checkitem_id
+        WHERE
+        s.id = #{id}
+    </select>
+</mapper>

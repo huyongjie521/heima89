@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+   mapper标签:配置各类声明
+   namespace：名称空间，由于映射文件可能有多个，为了防止crud语句的唯一标识被重复，需要设置空间名称。
+ -->
+<mapper namespace="com.itheima.mapper.CheckGroupMapper">
+    <!--
+        select:查询的statement（声明），用来编写查询语句
+        id:语句的唯一标识
+        resultType：配置返回的结果集类型
+        parameterType：传递的参数类型，可以省略
+    -->
+    <insert id="checkGroupAdd" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into t_checkgroup values (null,#{code},#{name},#{helpCode},#{sex},#{remark},#{attention})
+    </insert>
+
+ <!--   <insert id="setCheckGroupAndCheckItem">
+        insert into t_checkgroup_checkitem values(#{id},#{checkItemId})
+    </insert>-->
+
+    <insert id="setCheckGroupAndCheckItem">
+        insert into t_checkgroup_checkitem values
+        <foreach collection="checkItemIds" item="checkItemId" separator=",">
+            (#{id}, #{checkItemId})
+        </foreach>
+    </insert>
+
+    <select id="findPage" resultType="CheckGroup">
+        select * from t_checkgroup
+        <if test="queryString!=null and queryString.trim!=''">
+            where code=#{queryString} or name like '%' #{queryString} '%'
+        </if>
+    </select>
+
+    <select id="findById" resultType="CheckGroup">
+        select * from t_checkgroup where id=#{id}
+    </select>
+
+    <!--删除中间表关系-->
+    <delete id="deleteAssociation">
+        delete from t_checkgroup_checkitem where checkgroup_id=#{id}
+    </delete>
+
+    <!--更新检查组信息-->
+    <update id="edit">
+        update t_checkgroup
+        <set>
+            <if test="code!=null">
+                code = #{code},
+            </if>
+            <if test="name!=null">
+                name = #{name},
+            </if>
+            <if test="helpCode!=null">
+                helpCode = #{helpCode},
+            </if>
+            <if test="sex!=null">
+                sex = #{sex},
+            </if>
+            <if test="remark!=null">
+                remark = #{remark},
+            </if>
+            <if test="attention!=null">
+                attention = #{attention}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--查询检查组是否被套餐引用-->
+    <select id="findCountById" resultType="Integer">
+        select count(*) from t_checkgroup_checkitem where checkgroup_id =#{id}
+    </select>
+
+    <!--通过id删除检查组-->
+    <delete id="deleteById">
+        delete from t_checkgroup WHERE id=#{id}
+    </delete>
+
+
+    <!--查询所有检查组信息-->
+    <select id="findAll" resultType="CheckGroup">
+        select * from t_checkgroup
+    </select>
+
+
+</mapper>

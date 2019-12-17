@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dobbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- bean definitions here -->
+
+    <!--配置协议和服务端口，端口号如果不指定默认为20880-->
+    <dobbo:protocol name="dubbo" port="20881"></dobbo:protocol>
+    <!--配置服务名称-->
+    <dobbo:application name="health-service"></dobbo:application>
+    <!--配置注册中心地址-->
+    <dobbo:registry address="zookeeper://127.0.0.1:2181"></dobbo:registry>
+    <!--配置注解扫描服务-->
+    <dobbo:annotation package="com.itheima.service"></dobbo:annotation>
+
+
+</beans>

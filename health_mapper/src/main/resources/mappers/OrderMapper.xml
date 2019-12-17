@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+   mapper标签:配置各类声明
+   namespace：名称空间，由于映射文件可能有多个，为了防止crud语句的唯一标识被重复，需要设置空间名称。
+ -->
+<mapper namespace="com.itheima.mapper.OrderMapper">
+    <!--
+        select:查询的statement（声明），用来编写查询语句
+        id:语句的唯一标识
+        resultType：配置返回的结果集类型
+        parameterType：传递的参数类型，可以省略
+    -->
+    <!--通过会员id、日期和套餐id查询订单-->
+    <select id="findByCondition" resultType="Order">
+        select * from t_order where member_id = #{memberId} and orderDate =#{orderDate} and setmeal_id=#{setmealId}
+    </select>
+    <!--新增预约订单-->
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        insert into t_order values (null,#{memberId},#{orderDate},#{orderType},#{orderStatus},#{setmealId})
+    </insert>
+    <!--通过id查询order数据和member以及setmeal数据-->
+    <select id="findById" resultType="Map">
+            select
+            m.name member,s.name setmeal,orderDate,orderType
+            from t_order o
+            INNER JOIN t_member m on o.member_id = m.id
+            INNER JOIN t_setmeal s on o.setmeal_id = s.id
+            where
+            o.id = #{id}
+    </select>
+</mapper>

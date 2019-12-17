@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- bean definitions here -->
+
+    <!--自动扫描-->
+    <context:component-scan base-package="com.itheima.jobs"></context:component-scan>
+    <!--注册JobDetail，作用是负责通过反射调用指定的job-->
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!--注册目标对象-->
+        <property name="targetObject" ref="clearImgJob"></property>
+        <!--注册目标方法-->
+        <property name="targetMethod" value="clearImg"></property>
+    </bean>
+    <!--注册一个触发器，指定任务触发的时间-->
+    <bean id="myTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!--注入jobDetail-->
+        <property name="jobDetail" ref="jobDetail"></property>
+        <!--指定触发的时间，基于Cron表达式：每三秒执行一次-->
+        <property name="cronExpression">
+            <value>0/3 * * * * ?</value>
+        </property>
+    </bean>
+    <!--注册一个统一的调度工厂，通过这个调度工厂调度任务-->
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <!--注入多个触发器-->
+        <property name="triggers">
+            <list>
+                <ref bean="myTrigger"></ref>
+            </list>
+        </property>
+    </bean>
+</beans>
