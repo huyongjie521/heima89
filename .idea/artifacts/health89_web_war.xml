@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="health89_web:war">
+    <output-path>$PROJECT_DIR$/health89_web/target</output-path>
+    <root id="archive" name="health89_web-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="health89_web:war exploded" />
+    </root>
+  </artifact>
+</component>

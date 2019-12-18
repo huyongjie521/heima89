@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.MemberMapper">
+
+    <!--通过手机号查询是否是会员-->
+    <select id="findByTelephone" resultType="Member">
+        select * from t_member where phoneNumber = #{telephone}
+    </select>
+
+    <!--新增会员-->
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+       insert into t_member values(null,#{fileNumber},#{name},#{sex},#{idCard},#{phoneNumber},#{regTime},#{password},#{email},#{birthday},#{remark})
+    </insert>
+
+    <select id="findMemberCountByMonth" resultType="Integer">
+        select count(id) from t_member where regTime BETWEEN #{dateBegin} and #{dateEnd}
+    </select>
+
+
+    <select id="findTodayNewMember" resultType="Integer">
+        select count(id) from t_member where regTime = #{today}
+    </select>
+
+    <select id="findTotalMember" resultType="Integer">
+        select count(id) from t_member
+    </select>
+
+    <select id="findNewMemberCountAfterDate" resultType="Integer">
+        select count(id) from t_member where regTime >= #{date}
+    </select>
+
+</mapper>

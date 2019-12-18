@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--
+        xml配置事务的步骤：
+            1、事务管理器
+            2、事务策略：传播行为、是否只读、是否超等
+            3、aop:告诉事务管理器，去对哪些方法使用事务
+        注解配置事务的步骤：
+            1、事务管理器
+            2、声明使用注解配置事务
+            3、在接口上、类上、方法上使用@Transactional
+    -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <tx:advice id="txAdvice">
+        <tx:attributes>
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config proxy-target-class="true">
+        <!--配置切入点-->
+        <aop:pointcut id="pt1" expression="execution(* com.itheima.service.impl.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="pt1"></aop:advisor>
+    </aop:config>
+
+<!--    <tx:annotation-driven></tx:annotation-driven>-->
+
+</beans>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.OrderMapper">
+
+    <!--通过会员id、日期和套餐id查询订单-->
+    <select id="findByCondition" resultType="Order">
+        select * from t_order where member_id = #{memberId} and orderDate = #{orderDate} and setmeal_id = #{setmealId}
+    </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+         insert into t_order values (null,#{memberId},#{orderDate},#{orderType},#{orderStatus},#{setmealId})
+    </insert>
+
+
+    <select id="findById" resultType="Map">
+        SELECT
+            m.name member,s.name setmeal,orderDate,orderType
+        FROM
+            t_order o
+        INNER JOIN t_member m on o.member_id = m.id
+        INNER JOIN t_setmeal s on o.setmeal_id = s.id
+        WHERE
+            o.id = #{id}
+    </select>
+
+    <select id="findTodayOrderNumber" resultType="Integer">
+        select count(id) from t_order where orderDate = #{today}
+    </select>
+
+    <select id="findTodayVisitsNumber" resultType="Integer">
+        select count(id) from t_order where orderDate = #{today} and orderStatus = "已到诊"
+    </select>
+
+    <select id="findOrderNumberAfterDate" resultType="Integer">
+        select count(id) from t_order where orderDate >= #{date}
+    </select>
+
+    <select id="findVisitsNumberAfterDate" resultType="Integer">
+        select count(id) from t_order where orderDate >= #{date} and orderStatus = "已到诊"
+    </select>
+
+    <select id="findHotSetmeal" resultType="Map">
+        SELECT
+	        s.name,count(s.id) setmeal_count,count(s.id)/(select count(id) from t_order) proportion
+        FROM
+	        t_order o
+        INNER JOIN t_setmeal s ON o.setmeal_id = s.id
+        group by s.id
+        ORDER BY setmeal_count desc
+        limit 0 , 4
+    </select>
+
+
+</mapper>

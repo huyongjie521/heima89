@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="health89_common" />
+        <module name="health89_interface" />
+        <module name="health89_jobs" />
+        <module name="health89_mapper" />
+        <module name="health89_mobileweb" />
+        <module name="health89_pojo" />
+        <module name="health89_service" />
+        <module name="health89_web" />
+        <module name="springsecuritydemo" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="health89_common" target="1.8" />
+      <module name="health89_interface" target="1.8" />
+      <module name="health89_jobs" target="1.8" />
+      <module name="health89_mapper" target="1.8" />
+      <module name="health89_mobileweb" target="1.8" />
+      <module name="health89_parent" target="1.8" />
+      <module name="health89_pojo" target="1.8" />
+      <module name="health89_service" target="1.8" />
+      <module name="health89_web" target="1.8" />
+      <module name="springsecuritydemo" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

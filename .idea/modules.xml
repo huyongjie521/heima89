@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/health89_common/health89_common.iml" filepath="$PROJECT_DIR$/health89_common/health89_common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/health89_interface/health89_interface.iml" filepath="$PROJECT_DIR$/health89_interface/health89_interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/health89_jobs/health89_jobs.iml" filepath="$PROJECT_DIR$/health89_jobs/health89_jobs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/health89_mapper/health89_mapper.iml" filepath="$PROJECT_DIR$/health89_mapper/health89_mapper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/health89_mobileweb/health89_mobileweb.iml" filepath="$PROJECT_DIR$/health89_mobileweb/health89_mobileweb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/health89_parent.iml" filepath="$PROJECT_DIR$/health89_parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/health89_pojo/health89_pojo.iml" filepath="$PROJECT_DIR$/health89_pojo/health89_pojo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/health89_service/health89_service.iml" filepath="$PROJECT_DIR$/health89_service/health89_service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/health89_web/health89_web.iml" filepath="$PROJECT_DIR$/health89_web/health89_web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springsecuritydemo/springsecuritydemo.iml" filepath="$PROJECT_DIR$/springsecuritydemo/springsecuritydemo.iml" />
+    </modules>
+  </component>
+</project>
